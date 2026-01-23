@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dustin Nguyen - About Me</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #003366;
+        }
+        .info-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dustin Nguyen</h1>
+    
+    <div class="info-section">
+        <h2>About Me</h2>
+        <p>I'm a computer science student at UCSD currently taking CSE 135.</p>
+        <p>My interests include web development, systems programming, and sports.</p>
+    </div>
+
+    <div class="info-section">
+        <h2>Technical Interests</h2>
+        <ul>
+            <li>Web Development</li>
+            <li>Operating Systems</li>
+            <li>Computer Security</li>
+            <li>Functional Programming</li>
+        </ul>
+    </div>
+
+    <div class="info-section">
+        <h2>Hobbies</h2>
+        <ul>
+            <li>Basketball</li>
+            <li>Gaming</li>
+        </ul>
+    </div>
+
+    <script>
+        // Add some JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const greeting = document.createElement('p');
+            greeting.textContent = `Page loaded at: ${now.toLocaleString()}`;
+            greeting.style.fontStyle = 'italic';
+            greeting.style.color = '#666';
+            document.body.appendChild(greeting);
+        });
+    </script>
+
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>
