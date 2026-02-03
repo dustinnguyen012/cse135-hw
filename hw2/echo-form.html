@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Form - CSE 135</title>
+</head>
+<body>
+    <h1>Echo Form</h1>
+    <noscript>
+        <h2>JavaScript is Off - Basic Mode</h2>
+        <h3>PHP - GET</h3>
+        <form action="/hw2/echo-php.php" method="GET">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via GET!"></label><br><br>
+            <input type="submit" value="Submit PHP GET">
+        </form>
+        <h3>PHP - POST</h3>
+        <form action="/hw2/echo-php.php" method="POST">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via POST!"></label><br><br>
+            <input type="submit" value="Submit PHP POST">
+        </form>
+        <h3>Python - GET</h3>
+        <form action="/cgi-bin/echo-python.py" method="GET">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via GET!"></label><br><br>
+            <input type="submit" value="Submit Python GET">
+        </form>
+        <h3>Python - POST</h3>
+        <form action="/cgi-bin/echo-python.py" method="POST">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via POST!"></label><br><br>
+            <input type="submit" value="Submit Python POST">
+        </form>
+        <h3>NodeJS - GET</h3>
+        <form action="/hw2/echo-node" method="GET">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via GET!"></label><br><br>
+            <input type="submit" value="Submit Node GET">
+        </form>
+        <h3>NodeJS - POST</h3>
+        <form action="/hw2/echo-node" method="POST">
+            <label>Name: <input type="text" name="name" value="Dustin"></label><br><br>
+            <label>Message: <input type="text" name="message" value="Hello via POST!"></label><br><br>
+            <input type="submit" value="Submit Node POST">
+        </form>
+    </noscript>
+    <div id="jsForm" style="display:none;">
+        <h2>JavaScript Enabled - Full Mode</h2>
+        <label>Language:
+            <select id="languageSelect">
+                <option value="/hw2/echo-php.php">PHP</option>
+                <option value="/cgi-bin/echo-python.py">Python</option>
+                <option value="/hw2/echo-node">NodeJS</option>
+            </select>
+        </label><br><br>
+        <label>Method:
+            <select id="methodSelect">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+        </label><br><br>
+        <label>Encoding:
+            <select id="encodingSelect">
+                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
+                <option value="application/json">application/json</option>
+            </select>
+        </label><br><br>
+        <label>Name: <input type="text" id="nameInput" value="Dustin"></label><br><br>
+        <label>Message: <input type="text" id="messageInput" value="Hello from echo form!"></label><br><br>
+        <button type="button" id="submitBtn">Submit</button>
+        <h2 id="responseTitle" style="display:none;">Response:</h2>
+        <pre id="responseBox" style="background:#f0f0f0; padding:15px; display:none; white-space:pre-wrap;"></pre>
+    </div>
+    <p><a href="/">Back to Homepage</a></p>
+    <script>
+        document.getElementById('jsForm').style.display = 'block';
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            var language = document.getElementById('languageSelect').value;
+            var method = document.getElementById('methodSelect').value;
+            var encoding = document.getElementById('encodingSelect').value;
+            var name = document.getElementById('nameInput').value;
+            var message = document.getElementById('messageInput').value;
+            var url = language;
+            var options = { method: method, headers: {} };
+            if (encoding === 'application/json') {
+                options.headers['Content-Type'] = 'application/json';
+                if (method === 'GET' || method === 'DELETE') {
+                    url += '?name=' + encodeURIComponent(name) + '&message=' + encodeURIComponent(message);
+                } else {
+                    options.body = JSON.stringify({ name: name, message: message });
+                }
+            } else {
+                if (method === 'GET' || method === 'DELETE') {
+                    url += '?name=' + encodeURIComponent(name) + '&message=' + encodeURIComponent(message);
+                } else {
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.body = 'name=' + encodeURIComponent(name) + '&message=' + encodeURIComponent(message);
+                }
+            }
+            fetch(url, options)
+                .then(function(response) { return response.text(); })
+                .then(function(text) {
+                    document.getElementById('responseTitle').style.display = 'block';
+                    document.getElementById('responseBox').style.display = 'block';
+                    document.getElementById('responseBox').textContent = text;
+                })
+                .catch(function(error) {
+                    document.getElementById('responseTitle').style.display = 'block';
+                    document.getElementById('responseBox').style.display = 'block';
+                    document.getElementById('responseBox').textContent = 'Error: ' + error.message;
+                });
+        });
+    </script>
+</body>
+</html>
